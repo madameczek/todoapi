@@ -2,6 +2,7 @@
 using Azure;
 using System;
 using todoapi.AppModels;
+using ServerlessFuncs;
 
 namespace todoapi.TableStorageModels;
 
@@ -24,7 +25,7 @@ internal static class Mappings
 {
     public static TodoTableEntity AsTableEntity(this Todo todo) => new()
     {
-        PartitionKey = "TODO",
+        PartitionKey = TodoApi.PartitionKey,
         RowKey = todo.Id,
         CreatedAt = todo.CreatedAt,
         IsCompleted = todo.IsCompleted,

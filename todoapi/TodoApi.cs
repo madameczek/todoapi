@@ -17,7 +17,7 @@ namespace ServerlessFuncs;
 public class TodoApi
 {
     private const string TableName = "todos";
-    private const string PartitionKey = "TODO";
+    public const string PartitionKey = "TODO";
 
     private readonly ILogger<TodoApi> _logger;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
