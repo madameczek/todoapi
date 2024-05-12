@@ -28,10 +28,10 @@ public class TodoApi
         _jsonSerializerOptions = jsonSerializerOptions;
     }
 
-    public class TodoResponse(TodoTableEntity entity, HttpResponse response)
+    public class TodoResponse(TodoTableEntity? entity, HttpResponse response)
     {
         [TableOutput(TableName, Connection = "AzureWebJobsStorage")]
-        public TodoTableEntity Entity { get; } = entity;
+        public TodoTableEntity? Entity { get; } = entity;
 
         public HttpResponse Response { get; } = response;
     }
@@ -41,14 +41,22 @@ public class TodoApi
     {
         _logger.LogInformation("Create a todo");
 
-        string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-        var data = JsonSerializer.Deserialize<TodoCreateDTO>(requestBody);
-
-        var todo = new Todo() { TaskDescription = data.TaskDescription };
+        var requestBody = await new StreamReader(req.Body).ReadToEndAsync();
         var response = req.HttpContext.Response;
-        response.StatusCode = StatusCodes.Status200OK;
-        await response.WriteAsJsonAsync(todo);
-        return new TodoResponse(todo.AsTableEntity(), response);
+
+        try
+        {
+            var data = JsonSerializer.Deserialize<TodoCreateDTO>(requestBody, _jsonSerializerOptions);
+            var todo = new Todo() { TaskDescription = data.TaskDescription };
+            response.StatusCode = StatusCodes.Status200OK;
+            await response.WriteAsJsonAsync(todo);
+            return new TodoResponse(todo.AsTableEntity(), response);
+        }
+        catch
+        {
+            response.StatusCode = StatusCodes.Status400BadRequest;
+            return new TodoResponse(null, response);
+        }
     }
 
     [Function("GetTodos")]

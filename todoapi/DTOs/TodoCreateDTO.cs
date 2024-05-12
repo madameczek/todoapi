@@ -2,5 +2,6 @@
 
 internal class TodoCreateDTO
 {
-    public string TaskDescription { set; get; } = null!;
+    [JsonRequired]
+    public string Name { set; get; } = null!;
 }
