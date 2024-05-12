@@ -5,7 +5,7 @@ using todoapi.AppModels;
 
 namespace todoapi.TableStorageModels;
 
-public class BaseTableEntity : ITableEntity
+public abstract class BaseTableEntity : ITableEntity
 {
     public string PartitionKey { get; set; } = null!;
     public string RowKey { get; set; } = null!;
