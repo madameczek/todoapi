@@ -2,7 +2,6 @@
 using Azure;
 using System;
 using todoapi.AppModels;
-using ServerlessFuncs;
 
 namespace todoapi.TableStorageModels;
 
