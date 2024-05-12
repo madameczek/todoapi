@@ -16,7 +16,7 @@ namespace todoapi;
 
 public class TodoApi
 {
-    private const string TableName = "todos";
+    public const string TableName = "todos";
     public const string PartitionKey = "TODO";
 
     private readonly ILogger<TodoApi> _logger;
@@ -28,16 +28,8 @@ public class TodoApi
         _jsonSerializerOptions = jsonSerializerOptions;
     }
 
-    public class TodoResponse(TodoTableEntity? entity, HttpResponse response)
-    {
-        [TableOutput(TableName, Connection = "AzureWebJobsStorage")]
-        public TodoTableEntity? Entity { get; } = entity;
-
-        public HttpResponse Response { get; } = response;
-    }
-
     [Function("CreateTodo")]
-    public async Task<TodoResponse> Add([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "todo")] HttpRequest req)
+    public async Task<TodoResponseDTO> Add([HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "todo")] HttpRequest req)
     {
         _logger.LogInformation("Create a todo");
 
@@ -50,12 +42,12 @@ public class TodoApi
             var todo = new Todo { Name = data!.Name };
             response.StatusCode = StatusCodes.Status200OK;
             await response.WriteAsJsonAsync(todo);
-            return new TodoResponse(todo.AsTableEntity(), response);
+            return new TodoResponseDTO(todo.AsTableEntity(), response);
         }
         catch
         {
             response.StatusCode = StatusCodes.Status400BadRequest;
-            return new TodoResponse(null, response);
+            return new TodoResponseDTO(null, response);
         }
     }
 
