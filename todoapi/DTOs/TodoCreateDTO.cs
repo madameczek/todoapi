@@ -1,4 +1,6 @@
-﻿namespace todoapi.DTOs;
+﻿using System.Text.Json.Serialization;
+
+namespace todoapi.DTOs;
 
 internal class TodoCreateDTO
 {

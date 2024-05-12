@@ -47,7 +47,7 @@ public class TodoApi
         try
         {
             var data = JsonSerializer.Deserialize<TodoCreateDTO>(requestBody, _jsonSerializerOptions);
-            var todo = new Todo() { TaskDescription = data.TaskDescription };
+            var todo = new Todo { Name = data!.Name };
             response.StatusCode = StatusCodes.Status200OK;
             await response.WriteAsJsonAsync(todo);
             return new TodoResponse(todo.AsTableEntity(), response);
@@ -113,11 +113,14 @@ public class TodoApi
         TodoTableEntity existingRow;
         existingRow = findResult.Value!;
       
-        if (updatedTodo.IsCompleted != null) 
-            existingRow.IsCompleted = (bool)updatedTodo.IsCompleted; 
+        if(!string.IsNullOrEmpty(updatedTodo.Name))
+            existingRow.Name = updatedTodo.Name;
 
-        if(!string.IsNullOrEmpty(updatedTodo.TaskDescription))
-            existingRow.TaskDescription = updatedTodo.TaskDescription;
+        if (!string.IsNullOrEmpty(updatedTodo.Description))
+            existingRow.Description = updatedTodo.Description;
+
+        if (updatedTodo.IsCompleted != null)
+            existingRow.IsCompleted = (bool)updatedTodo.IsCompleted;
 
         await todoTable.UpdateEntityAsync(existingRow, existingRow.ETag, TableUpdateMode.Replace);
 

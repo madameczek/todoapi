@@ -2,6 +2,7 @@
 
 internal class TodoUpdateDTO
 {
-    public string TaskDescription { set; get; } = null!;
+    public string? Name { set; get; }
+    public string? Description { set; get; }
     public bool? IsCompleted { get; set; }
 }

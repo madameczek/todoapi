@@ -17,7 +17,8 @@ public class BaseTableEntity : ITableEntity
 public class TodoTableEntity : BaseTableEntity
 {
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-    public string TaskDescription { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
     public bool IsCompleted { get; set; }
 }
 
@@ -29,14 +30,16 @@ internal static class Mappings
         RowKey = todo.Id,
         CreatedAt = todo.CreatedAt,
         IsCompleted = todo.IsCompleted,
-        TaskDescription = todo.TaskDescription
+        Name = todo.Name,
+        Description = todo.Description
     };
 
     internal static Todo AsTodo(this TodoTableEntity todo) => new()
     {
         Id = todo.RowKey,
         CreatedAt = todo.CreatedAt,
-        TaskDescription = todo.TaskDescription,
+        Name = todo.Name,
+        Description = todo.Description,
         IsCompleted = todo.IsCompleted
     };
 }
