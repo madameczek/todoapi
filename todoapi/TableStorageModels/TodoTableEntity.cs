@@ -22,7 +22,7 @@ public class TodoTableEntity : BaseTableEntity
 
 internal static class Mappings
 {
-    public static TodoTableEntity AdTableEntity(this Todo todo) => new()
+    public static TodoTableEntity AsTableEntity(this Todo todo) => new()
     {
         PartitionKey = "TODO",
         RowKey = todo.Id,

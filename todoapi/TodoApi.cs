@@ -48,7 +48,7 @@ public class TodoApi
         var response = req.HttpContext.Response;
         response.StatusCode = StatusCodes.Status200OK;
         await response.WriteAsJsonAsync(todo);
-        return new TodoResponse(todo.AdTableEntity(), response);
+        return new TodoResponse(todo.AsTableEntity(), response);
     }
 
     [Function("GetTodos")]
