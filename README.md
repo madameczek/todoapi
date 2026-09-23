@@ -5,4 +5,4 @@ The main reason for this repo is to show how to bind Azure Functions app to Tabl
 Table storage is very cheap and, despite some limitations worth considering, for persistence.
 Unfortunately, there are bugs in the Table storage binding and here you can look how to go around the issue.
 
-A more descriptive article about this topic can be found (in Polish) at: https://blog.adameczek.pl/ tag *Azure*
+A more descriptive article about this topic can be found (in Polish) on [my blog](https://www.adameczek.pl/blog/azure-functions-v4-perypetie-z-table-storage/)
